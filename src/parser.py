@@ -14,7 +14,7 @@ def _is_function_in_dict(library_function_dict: dict[str | None, list[str]], fun
             if library_name is None:
                 for function_regex in library_function_dict[library_regex]:
                     if re.match(function_regex[1], function):
-                        regex_list.append((library_regex, function_regex[0]))
+                        regex_list.append((library_regex[0], function_regex[0]))
             continue
         if library_name is None:
             library_name = ""
