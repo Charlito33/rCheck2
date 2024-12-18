@@ -8,6 +8,12 @@ This program allows you to detect specific functions in a program, based on spec
 You can choose for each function (using regular expressions), if you want to ban them or allow them.
 By default, every function is allowed.
 
+## Installation
+
+```shell
+curl -o rcheck-install.sh https://raw.githubusercontent.com/Charlito33/rCheck2/refs/heads/master/install.sh && chmod 755 rcheck-install.sh && ./rcheck-install.sh
+```
+
 ## Features
 
 * Very configurable.
