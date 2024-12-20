@@ -43,7 +43,7 @@ class Rules:
     def __init__(self, file: str) -> None:
         self._file: str = file
         self._data: dict = None
-        self._executables: list[str] = None
+        self._executables: list[str] = []
         self._banned_functions: dict = {}
         self._allowed_functions: dict = {}
 
