@@ -6,7 +6,7 @@ import sys
 
 
 def _is_function_in_dict(library_function_dict: dict[str | None, list[str]], function: str, library: str | None) \
-        -> (bool, list[str]):
+        -> tuple[bool, list[str]]:
     regex_list = []
     for library_regex in library_function_dict:
         library_name = library
@@ -41,12 +41,13 @@ def _get_pretty_regex_str(regex_list: list[str]) -> str:
 
 class Rules:
     def __init__(self, file: str) -> None:
-        self._file = file
-        self._data = None
-        self._banned_functions = {}
-        self._allowed_functions = {}
+        self._file: str = file
+        self._data: dict = None
+        self._executables: list[str] = None
+        self._banned_functions: dict = {}
+        self._allowed_functions: dict = {}
 
-    def parse(self) -> (bool, str):
+    def parse(self) -> tuple[bool, str]:
         with open(self._file) as f:
             self._data = json.load(f)
         extended_regex = False
@@ -57,6 +58,11 @@ class Rules:
                         extended_regex = self._data["config"]["extended_regex"]
                     else:
                         print("Warning: skipping extended regex configuration: wrong type.", file=sys.stderr)
+                if "executables" in self._data["config"]:
+                    if type(self._data["config"]["executables"]) is list:
+                        self._executables = self._data["config"]["executables"]
+                    else:
+                        print("Warning: skipping custom executables configuration: wrong type.", file=sys.stderr)
             else:
                 print("Warning: skipping configuration section: wrong type.", file=sys.stderr)
         if "rules" in self._data:
@@ -125,7 +131,7 @@ class Rules:
                 print("Warning: skipping rules section: wrong type.", file=sys.stderr)
         return True, ""
 
-    def is_banned(self, function_name: str, library_name: str | None) -> (bool, str):
+    def is_banned(self, function_name: str, library_name: str | None) -> tuple[bool, str]:
         is_ban, ban_rules = _is_function_in_dict(self._banned_functions, function_name, library_name)
         if is_ban:
             is_allow, allow_rules = _is_function_in_dict(self._allowed_functions, function_name, library_name)
@@ -135,7 +141,7 @@ class Rules:
         return False, ""
 
 
-def get_used_functions(file: str) -> (bool, list[str, str], str):
+def get_used_functions(file: str) -> tuple[bool, list[str, str], str]:
     functions = []
 
     if not os.path.exists(file):
