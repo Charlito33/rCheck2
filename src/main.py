@@ -40,6 +40,9 @@ def main(auto_mode: bool = False) -> None:
         exit(1)
 
     if auto_mode:
+        if len(rules._executables) == 0:
+            print("Error: no executables to run the analysis on.", file=sys.stderr)
+            exit(1)
         print("Executing multiple file scan from configuration file.")
         i: int = 1
         for executable in rules._executables:

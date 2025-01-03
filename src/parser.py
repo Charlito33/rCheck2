@@ -63,8 +63,12 @@ class Rules:
                         self._executables = self._data["config"]["executables"]
                     else:
                         print("Warning: skipping custom executables configuration: wrong type.", file=sys.stderr)
+                else:
+                    print("Warning: no executables specified in configuration.", file=sys.stderr)
             else:
                 print("Warning: skipping configuration section: wrong type.", file=sys.stderr)
+        else:
+            print("Warning: no configuration section.", file=sys.stderr)
         if "rules" in self._data:
             if type(self._data["rules"]) is list:
                 for entry in self._data["rules"]:
