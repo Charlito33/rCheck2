@@ -29,8 +29,12 @@ curl -B https://raw.githubusercontent.com/Charlito33/rCheck2/refs/heads/master/i
 ### Program arguments
 
 ```shell
-./rcheck2 
+rcheck [target path] [configuration path]
 ```
+
+### Configuration
+
+Configuration should be stored in a ``.rcheck`` directory and the configuration file should be named ``ruleset.json``.
 
 ### Rules examples
 
@@ -40,6 +44,11 @@ The program does not support JSON with comments, this is only for demonstration 
 
 ```json5
 {
+  "config": {
+    "executables": [
+      "a.out"
+    ]
+  },
   "rules": [
     {
       "library": "GLIBC.*",
@@ -55,6 +64,11 @@ The program does not support JSON with comments, this is only for demonstration 
 
 ```json5
 {
+  "config": {
+    "executables": [
+      "a.out"
+    ]
+  },
   "rules": [
     {
       // CSFML is not detected in a library.
@@ -70,6 +84,11 @@ The program does not support JSON with comments, this is only for demonstration 
 
 ```json5
 {
+  "config": {
+    "executables": [
+      "a.out"
+    ]
+  },
   "rules": [
     {
       // If you don't specify "library", the program will only ban functions that are not in a library.
@@ -85,6 +104,11 @@ The program does not support JSON with comments, this is only for demonstration 
 
 ```json5
 {
+  "config": {
+    "executables": [
+      "a.out"
+    ]
+  },
   "rules": [
     {
       "library": ".*", // Apply to any library
@@ -102,6 +126,11 @@ The program does not support JSON with comments, this is only for demonstration 
 
 ```json5
 {
+  "config": {
+    "executables": [
+      "a.out"
+    ]
+  },
   "rules": [
     {
       "library": ".*", // Apply to any library
@@ -125,7 +154,7 @@ To do that, you just need to update the configuration.
 
 ```json5
 {
-  "configuration": {
+  "config": {
     "extended_regex": true // Remove the '^' prefix and '$' suffix.
   },
   // ...
