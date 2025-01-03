@@ -6,7 +6,7 @@ import sys
 
 
 def _is_function_in_dict(library_function_dict: dict[str | None, list[str]], function: str, library: str | None) \
-        -> tuple[bool, list[str]]:
+        -> tuple[bool, list[tuple[str, str]]]:
     regex_list = []
     for library_regex in library_function_dict:
         library_name = library
@@ -24,7 +24,7 @@ def _is_function_in_dict(library_function_dict: dict[str | None, list[str]], fun
                     regex_list.append((library_regex[0], function_regex[0]))
     return len(regex_list) > 0, regex_list
 
-def _get_pretty_regex_str(regex_list: list[str]) -> str:
+def _get_pretty_regex_str(regex_list: list[tuple[str, str]]) -> str:
     output = ""
     prefix = ""
     for regex in regex_list:
@@ -42,7 +42,7 @@ def _get_pretty_regex_str(regex_list: list[str]) -> str:
 class Rules:
     def __init__(self, file: str) -> None:
         self._file: str = file
-        self._data: dict = None
+        self._data: dict | None = None
         self._executables: list[str] = []
         self._banned_functions: dict = {}
         self._allowed_functions: dict = {}
@@ -141,7 +141,7 @@ class Rules:
         return False, ""
 
 
-def get_used_functions(file: str) -> tuple[bool, list[str, str], str]:
+def get_used_functions(file: str) -> tuple[bool, list[tuple[str, str]], str]:
     functions = []
 
     if not os.path.exists(file):

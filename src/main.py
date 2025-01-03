@@ -3,7 +3,7 @@ import sys
 import parser
 from colors import Color
 
-def parse_executable(rules: parser.Rules, used_functions: list[str]) -> None:
+def parse_executable(rules: parser.Rules, used_functions: list[tuple[str, str]]) -> None:
     banned_functions_count = 0
     for function in used_functions:
         function_name = function[0]
@@ -21,7 +21,7 @@ def parse_executable(rules: parser.Rules, used_functions: list[str]) -> None:
         print(f"\n{Color.RED}Found {banned_functions_count} banned function(s).{Color.RESET}")
 
 def main(auto_mode: bool = False) -> None:
-    if auto_mode == False:
+    if not auto_mode:
         program_path = sys.argv[1]
     else:
         program_path = None
@@ -39,7 +39,7 @@ def main(auto_mode: bool = False) -> None:
         print(error_message, file=sys.stderr)
         exit(1)
 
-    if auto_mode == True:
+    if auto_mode:
         print("Executing multiple file scan from configuration file.")
         i: int = 1
         for executable in rules._executables:
